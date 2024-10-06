@@ -45,9 +45,21 @@ mkdir -p $EVAL_DIR/traces
 
 ```
 
-## Step 2 Run mruby demo
+## Step 2 Run demo
+
+We now can run the demo CVE-2018-10191 (mruby).
 
 
 ```
-
+git clone https://github.com/mruby/mruby.git
+cd mruby
+git checkout e9ddb593f3f6c0264563eaf20f5de8cf43cc1c5d
+CC=$AFL_DIR/afl-gcc CFLAGS="-fsanitize=address -fsanitize-recover=address -ggdb -O0" LDFLAGS="-fsanitize=address"  make -e -j
+mv ./bin/mruby ../mruby_fuzz
+make clean
+CFLAGS="-ggdb -O0" make -e -j
+mv ./bin/mruby ../mruby_trace
+cd $EVAL_DIR
+rm -rf mruby_fuzz mruby_trace
+echo "@@" > arguments.txt
 ```
