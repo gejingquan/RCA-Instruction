@@ -17,5 +17,19 @@ mkdir -p $EVAL_DIR/inputs/non_crashes
 ```
 
 ## Step 2.
+Download AFL code and patch AFL so that non-crash test cases can also be stored.
+
+```
+wget -c https://lcamtuf.coredump.cx/afl/releases/afl-latest.tgz
+tar xvf afl-latest.tgz
+mv afl-2.52b afl-fuzz
+cd afl-fuzz
+patch -p1 < ${AURORA_GIT_DIR}/crash_exploration/crash_exploration.patch
+cd $EVAL_DIR/afl-fuzz
+make -j
+cd ..
+```
+
+
 
 
