@@ -3,7 +3,7 @@ How to install and run RCA.
 
 ## Step 1. Installation
 
-### Download AURORA and create related folders
+Download AURORA and create related folders
 ```
 git clone https://github.com/RUB-SysSec/aurora
 AURORA_GIT_DIR="$(pwd)/aurora"
