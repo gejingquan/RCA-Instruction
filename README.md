@@ -67,9 +67,35 @@ mv ./bin/mruby ../mruby_fuzz
 make clean
 CFLAGS="-ggdb -O0" make -e -j
 mv ./bin/mruby ../mruby_trace
-cd $EVAL_DIR
-rm -rf mruby_fuzz mruby_trace
-echo "@@" > arguments.txt
 ```
+
+
+Download and copy the seed folder and files, start the RCA fuzzing process, and collect crash and non-crash test cases.
+```
+cd $EVAL_DIR
+git clone https://github.com/gejingquan/RCA_v1
+cp -r RCA_v1/seed ./
+timeout 43200 $AFL_DIR/afl-fuzz -C -d -m none -i $EVAL_DIR/seed -o $AFL_WORKDIR -- $EVAL_DIR/mruby_fuzz @@
+cp $AFL_WORKDIR/queue/* $EVAL_DIR/inputs/crashes
+cp $AFL_WORKDIR/non_crashes/* $EVAL_DIR/inputs/non_crashes
+```
+
+Trace all crashing and non-crashing inputs found by the fuzzer's crash exploration mode using Intel Pin.
+```
+mkdir -p $EVAL_DIR/traces
+cd $AURORA_GIT_DIR/tracing/scripts
+python3 tracing.py $EVAL_DIR/mruby_trace $EVAL_DIR/inputs $EVAL_DIR/traces
+python3 addr_ranges.py --eval_dir $EVAL_DIR $EVAL_DIR/traces
+```
+
+Once tracing completed, you can determine predicates as follows (requires Rust Nightly):
+```
+cd $AURORA_GIT_DIR/root_cause_analysis
+cargo build --release --bin monitor
+cargo build --release --bin rca
+cargo run --release --bin rca -- --eval-dir $EVAL_DIR --trace-dir $EVAL_DIR --monitor --rank-predicates
+cargo run --release --bin addr2line -- --eval-dir $EVAL_DIR
+```
+The result of RCA is ranked_predicates_verbose.txt and ranked_predicates.txt
 
 
