@@ -20,6 +20,7 @@ mkdir -p $EVAL_DIR/inputs/non_crashes
 Download AFL code and patch AFL so that non-crash test cases can also be stored.
 
 ```
+cd $EVAL_DIR
 wget -c https://lcamtuf.coredump.cx/afl/releases/afl-latest.tgz
 tar xvf afl-latest.tgz
 mv afl-2.52b afl-fuzz
@@ -33,6 +34,7 @@ cd ..
 Download Intel Pin source code and compile aurora_tracer.so dynamic library, then create related folders.
 
 ```
+cd $EVAL_DIR
 wget -c http://software.intel.com/sites/landingpage/pintool/downloads/pin-3.15-98253-gb56e429b1-gcc-linux.tar.gz
 tar -xzf pin*.tar.gz
 export PIN_ROOT="$(pwd)/pin-3.15-98253-gb56e429b1-gcc-linux"
@@ -50,6 +52,7 @@ mkdir -p $EVAL_DIR/traces
 
 Download mruby and rollback to the version where CVE-2018-10191 has not been fixed.
 ```
+cd $EVAL_DIR
 git clone https://github.com/mruby/mruby.git
 cd mruby
 git checkout e9ddb593f3f6c0264563eaf20f5de8cf43cc1c5d
