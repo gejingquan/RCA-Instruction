@@ -96,6 +96,6 @@ cargo build --release --bin rca
 cargo run --release --bin rca -- --eval-dir $EVAL_DIR --trace-dir $EVAL_DIR --monitor --rank-predicates
 cargo run --release --bin addr2line -- --eval-dir $EVAL_DIR
 ```
-The result of RCA is ranked_predicates_verbose.txt and ranked_predicates.txt
+The result of RCA is ranked_predicates_verbose.txt.
 
 
