@@ -57,7 +57,7 @@ git checkout e9ddb593f3f6c0264563eaf20f5de8cf43cc1c5d
 
 Compile mruby twice, for RCA fuzz and RCA analysis respectively.
 The first one is compiled with afl-gcc and adds the sanitizer compilation flag, which is used for RCA fuzz.
-The second one is compiled with gcc and removes the sanitizer compilation flag, which is used for RCA analysis
+The second one is compiled with gcc and removes the sanitizer compilation flag, which is used for RCA analysis.
 ```
 CC=$AFL_DIR/afl-gcc CFLAGS="-fsanitize=address -fsanitize-recover=address -ggdb -O0" LDFLAGS="-fsanitize=address"  make -e -j
 mv ./bin/mruby ../mruby_fuzz
